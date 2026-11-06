@@ -1,0 +1,817 @@
+/* Estilos de Journal Hub. Solo variables CSS de Obsidian para respetar temas claro/oscuro. */
+
+.journal-hub-muted {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.journal-hub-error {
+	color: var(--text-error);
+}
+
+.journal-hub-example {
+	color: var(--text-accent);
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	margin-top: var(--size-4-1);
+}
+
+.journal-hub-move-list {
+	max-height: 50vh;
+	overflow-y: auto;
+	padding-inline-start: var(--size-4-4);
+	margin-block: var(--size-4-2);
+}
+
+.journal-hub-move-list li {
+	margin-bottom: var(--size-4-2);
+}
+
+.journal-hub-move-from {
+	font-size: var(--font-ui-small);
+	word-break: break-word;
+}
+
+.journal-hub-move-to {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	padding-inline-start: var(--size-4-2);
+}
+
+.journal-hub-file-modal .modal-button-container {
+	align-items: center;
+}
+
+.journal-hub-file-modal .modal-button-container .journal-hub-muted {
+	margin-inline-end: auto;
+}
+
+/* ── Vista del hub ─────────────────────────────────────────────────────────────── */
+
+.jh-hub {
+	padding: 0;
+}
+
+.jh-wrap {
+	max-width: 880px;
+	margin: 0 auto;
+	padding: var(--size-4-8) var(--size-4-6) var(--size-4-12);
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-5);
+}
+
+.jh-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--size-4-4);
+}
+
+.jh-title {
+	margin: 0;
+	font-size: var(--h1-size);
+}
+
+.jh-stats,
+.jh-hint {
+	margin: var(--size-4-1) 0 0;
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.jh-actions,
+.jh-tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-2);
+	align-items: center;
+}
+
+.jh-actions button,
+.jh-mode {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-4-1);
+}
+
+.jh-btn-icon {
+	display: inline-flex;
+}
+
+.jh-btn-icon svg {
+	width: var(--icon-s);
+	height: var(--icon-s);
+}
+
+.jh-modes {
+	display: inline-flex;
+	padding: 2px;
+	border-radius: var(--radius-m);
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+}
+
+.jh-hub .jh-modes .jh-mode {
+	background: transparent;
+	box-shadow: none;
+	color: var(--text-muted);
+}
+
+.jh-hub .jh-modes .jh-mode.is-active {
+	background: var(--background-primary);
+	color: var(--text-normal);
+	box-shadow: var(--shadow-s);
+}
+
+.jh-search {
+	flex: 1 1 220px;
+}
+
+.jh-search .search-input-container {
+	width: 100%;
+}
+
+.jh-empty {
+	color: var(--text-muted);
+}
+
+.jh-pill,
+.jh-count {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+.jh-pill {
+	padding: 1px var(--size-4-2);
+	border-radius: var(--radius-l);
+	background: hsla(var(--interactive-accent-hsl), 0.18);
+	color: var(--text-accent);
+}
+
+.jh-chevron {
+	display: inline-flex;
+	color: var(--text-muted);
+	transition: transform 120ms ease;
+}
+
+.jh-chevron svg {
+	width: var(--icon-xs);
+	height: var(--icon-xs);
+}
+
+.jh-chevron.is-open {
+	transform: rotate(90deg);
+}
+
+/* Entradas (comunes a los tres modos) */
+
+.jh-entries {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.jh-entry {
+	display: flex;
+	align-items: baseline;
+	gap: var(--size-4-3);
+	padding: var(--size-4-1) var(--size-4-2);
+	border-radius: var(--radius-s);
+	color: var(--text-normal);
+	text-decoration: none;
+}
+
+.jh-entry:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.jh-entry-day {
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-small);
+	color: var(--text-accent);
+	min-width: 2ch;
+}
+
+.jh-entry-wd {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	min-width: 3.2ch;
+}
+
+.jh-entry-kw {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Línea de tiempo */
+
+.jh-timeline {
+	position: relative;
+	padding-left: var(--size-4-8);
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-5);
+}
+
+.jh-timeline::before {
+	content: '';
+	position: absolute;
+	left: 7px;
+	top: 10px;
+	bottom: 6px;
+	width: 2px;
+	border-radius: 2px;
+	background: var(--background-modifier-border);
+}
+
+.jh-hub .jh-tl-year-head,
+.jh-hub .jh-tl-month-head {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	background: none;
+	box-shadow: none;
+	padding: var(--size-4-1) var(--size-4-2);
+	margin-left: calc(-1 * var(--size-4-2));
+	height: auto;
+}
+
+.jh-hub .jh-tl-year-head:hover,
+.jh-hub .jh-tl-month-head:hover {
+	background: var(--background-modifier-hover);
+}
+
+.jh-tl-dot {
+	position: absolute;
+	left: calc(-1 * var(--size-4-8) + var(--size-4-2));
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	background: var(--background-primary);
+	border: 2px solid var(--interactive-accent);
+}
+
+.jh-tl-month-dot {
+	position: absolute;
+	left: calc(-1 * var(--size-4-8) + var(--size-4-2) + 4px);
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--text-faint);
+}
+
+.jh-tl-year-label {
+	font-size: var(--h2-size);
+	font-weight: var(--h2-weight);
+}
+
+.jh-tl-month {
+	margin-top: var(--size-4-1);
+}
+
+.jh-tl-month-label {
+	font-weight: var(--font-semibold);
+}
+
+.jh-tl-entries {
+	padding-left: var(--size-4-5);
+	margin-bottom: var(--size-4-2);
+}
+
+/* Lista */
+
+.jh-list-top {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-3);
+}
+
+.jh-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-2);
+}
+
+.jh-hub .jh-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-4-1);
+	padding: var(--size-4-1) var(--size-4-3);
+	border-radius: var(--radius-l);
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	box-shadow: none;
+	color: var(--text-normal);
+	font-size: var(--font-ui-small);
+	text-decoration: none;
+	height: auto;
+}
+
+.jh-hub .jh-chip.is-active {
+	border-color: var(--interactive-accent);
+	background: hsla(var(--interactive-accent-hsl), 0.15);
+}
+
+.jh-bars,
+.jh-ticks {
+	display: flex;
+	gap: 3px;
+}
+
+.jh-bars {
+	height: 48px;
+	align-items: flex-end;
+}
+
+.jh-hub .jh-bar {
+	flex: 1 1 0;
+	min-width: 0;
+	width: auto;
+	margin: 0;
+	height: 100%;
+	padding: 0;
+	background: none;
+	box-shadow: none;
+	display: flex;
+	align-items: flex-end;
+}
+
+.jh-bar-fill {
+	display: block;
+	width: 100%;
+	height: var(--jh-bar-height, 3px);
+	border-radius: 3px 3px 1px 1px;
+	background: var(--interactive-accent);
+}
+
+.jh-bar-fill.is-empty {
+	background: var(--background-modifier-border);
+}
+
+.jh-bar.is-active .jh-bar-fill {
+	background: var(--text-accent);
+}
+
+.jh-bar.is-dim {
+	opacity: 0.35;
+}
+
+.jh-ticks span {
+	flex: 1 1 0;
+	min-width: 0;
+	text-align: center;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-faint);
+	white-space: nowrap;
+	overflow: visible;
+}
+
+.jh-list-head {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	margin: 0;
+	padding: var(--size-4-3) 0 var(--size-4-1);
+	display: flex;
+	align-items: baseline;
+	gap: var(--size-4-2);
+	background: var(--background-primary);
+	border-bottom: 1px solid var(--background-modifier-border);
+	font-size: var(--font-ui-small);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--text-muted);
+}
+
+.jh-list-entries .jh-entry {
+	border-radius: 0;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+/* Calendario */
+
+.jh-cal-nav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--size-4-2);
+}
+
+.jh-cal-nav .jh-hint {
+	margin: 0 0 0 var(--size-4-2);
+}
+
+.jh-cal-year {
+	margin: 0;
+	white-space: nowrap;
+	min-width: 4ch;
+	text-align: center;
+}
+
+.jh-cal {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-5);
+	align-items: flex-start;
+}
+
+.jh-cal-grid {
+	flex: 999 1 520px;
+	min-width: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: var(--size-4-3);
+}
+
+.jh-cal-grid.is-narrow {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.jh-cal-month {
+	padding: var(--size-4-2);
+	border-radius: var(--radius-m);
+}
+
+.jh-cal-month.is-active {
+	background: var(--background-secondary);
+	box-shadow: inset 0 0 0 1px var(--background-modifier-border);
+}
+
+.jh-cal-month-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: var(--size-4-1);
+}
+
+.jh-cal-month-head h3 {
+	margin: 0;
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-semibold);
+}
+
+.jh-cal-days {
+	display: grid;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+	gap: 3px;
+	text-align: center;
+	font-size: var(--font-ui-smaller);
+}
+
+.jh-cal-wd {
+	color: var(--text-faint);
+}
+
+.jh-cal-day {
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-s);
+	font-family: var(--font-monospace);
+	color: var(--text-faint);
+	padding: 0;
+}
+
+.jh-cal-grid.is-narrow .jh-cal-day,
+.jh-hub .jh-cal-grid.is-narrow button.jh-cal-day {
+	height: 36px;
+	font-size: var(--font-ui-small);
+}
+
+.jh-hub button.jh-cal-day {
+	/* Obsidian en móvil da a los botones ancho mínimo y relleno: aquí ocupan solo su celda. */
+	width: 100%;
+	min-width: 0;
+	height: 22px;
+	padding: 0;
+	margin: 0;
+	font-size: inherit;
+	box-shadow: none;
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.jh-hub button.jh-cal-day.has-many {
+	background: var(--text-accent);
+	font-weight: var(--font-bold);
+}
+
+.jh-cal-day.is-today {
+	outline: 1px dashed var(--text-muted);
+	outline-offset: 1px;
+}
+
+.jh-hub button.jh-cal-day.is-selected {
+	box-shadow: inset 0 0 0 2px var(--text-normal);
+}
+
+.jh-hub button.jh-cal-day.is-hit {
+	outline: 2px solid var(--color-yellow);
+	outline-offset: 1px;
+}
+
+.jh-hub button.jh-cal-day.is-dim {
+	opacity: 0.3;
+}
+
+.jh-cal-panel {
+	flex: 1 1 240px;
+	min-width: 220px;
+	padding: var(--size-4-4);
+	border-radius: var(--radius-l);
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+}
+
+.jh-cal-panel h2 {
+	margin: 0 0 var(--size-4-2);
+	font-size: var(--h3-size);
+}
+
+.jh-cal-entries li.is-selected .jh-entry {
+	background: hsla(var(--interactive-accent-hsl), 0.18);
+}
+
+/* Notas sin fecha */
+
+.jh-unmatched {
+	padding: var(--size-4-3) var(--size-4-4);
+	border: 1px dashed var(--background-modifier-border);
+	border-radius: var(--radius-m);
+}
+
+.jh-unmatched h2 {
+	margin: 0;
+	font-size: var(--font-ui-small);
+	color: var(--text-muted);
+}
+
+.jh-unmatched-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-2);
+	margin-top: var(--size-4-2);
+}
+
+@media (max-width: 560px) {
+	.jh-mode-label {
+		display: none;
+	}
+}
+
+/* ── Actividad (mosaico tipo GitHub) ───────────────────────────────────────────── */
+
+.jh-act {
+	--jh-cell: 10px;
+	--jh-gap: 2px;
+	padding: var(--size-4-3) var(--size-4-3) var(--size-4-4);
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.jh-act.is-large {
+	--jh-cell: 14px;
+	--jh-gap: 3px;
+	max-width: 1040px;
+	margin: 0 auto;
+	padding: var(--size-4-8);
+	gap: var(--size-4-4);
+	border-bottom: none;
+}
+
+.jh-act-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-4-2);
+}
+
+.jh-act-title {
+	margin: 0;
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--text-muted);
+}
+
+.jh-act.is-large .jh-act-title {
+	font-size: var(--h1-size);
+	text-transform: none;
+	letter-spacing: normal;
+	color: var(--text-normal);
+}
+
+.jh-act-nav {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}
+
+.jh-act-range {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	min-width: 8ch;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.jh-act-grid {
+	display: flex;
+	gap: var(--jh-gap);
+	/* El nombre del mes de la última columna sobresale un poco: que no se recorte. */
+	overflow: visible;
+	padding-right: var(--size-4-4);
+}
+
+.jh-act-col {
+	display: grid;
+	grid-template-rows: 12px repeat(7, var(--jh-cell));
+	row-gap: var(--jh-gap);
+	width: var(--jh-cell);
+	flex-shrink: 0;
+}
+
+.jh-act-wd {
+	width: auto;
+	min-width: 10px;
+	padding-right: 2px;
+}
+
+.jh-act-month,
+.jh-act-wd-label {
+	font-size: 9px;
+	line-height: var(--jh-cell);
+	color: var(--text-faint);
+	white-space: nowrap;
+	overflow: visible;
+}
+
+.jh-act.is-large .jh-act-month,
+.jh-act.is-large .jh-act-wd-label {
+	font-size: var(--font-ui-smaller);
+}
+
+.jh-act-cell {
+	display: block;
+	width: var(--jh-cell);
+	height: var(--jh-cell);
+	border-radius: 2px;
+}
+
+.jh-act-cell.level-0 {
+	background: var(--background-modifier-border);
+}
+
+.jh-act-cell.level-1 {
+	background: hsla(var(--interactive-accent-hsl), 0.4);
+}
+
+.jh-act-cell.level-2 {
+	background: hsla(var(--interactive-accent-hsl), 0.7);
+}
+
+.jh-act-cell.level-3 {
+	background: var(--interactive-accent);
+}
+
+.jh-act-cell.is-before {
+	opacity: 0.45;
+}
+
+.jh-act-cell.is-future {
+	background: transparent;
+}
+
+.jh-act-cell.is-today {
+	box-shadow: inset 0 0 0 1.5px var(--text-normal);
+}
+
+.jh-act-cell.has-entries {
+	cursor: pointer;
+}
+
+.jh-act-cell.has-entries:hover,
+.jh-act-cell.has-entries:focus-visible {
+	outline: 1.5px solid var(--text-accent);
+	outline-offset: 1px;
+}
+
+.jh-act-status {
+	margin: 0;
+	min-height: 1.4em;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.jh-act-stats {
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--size-4-1);
+	text-align: center;
+}
+
+.jh-act-stat {
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.jh-act-stat dd {
+	margin: 0;
+	font-size: var(--font-ui-medium);
+	font-weight: var(--font-bold);
+	color: var(--text-normal);
+}
+
+.jh-act-stat dt {
+	font-size: 10px;
+	color: var(--text-muted);
+}
+
+.jh-act.is-large .jh-act-stat {
+	padding: var(--size-4-3);
+	border-radius: var(--radius-m);
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	text-align: left;
+}
+
+.jh-act.is-large .jh-act-stat dd {
+	font-size: var(--h2-size);
+}
+
+.jh-act.is-large .jh-act-stat dt {
+	font-size: var(--font-ui-small);
+}
+
+.jh-act-legend {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 4px;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+.jh-act-msg {
+	margin: 0;
+	font-size: var(--font-ui-small);
+	color: var(--text-muted);
+}
+
+/* ── Bienvenida ────────────────────────────────────────────────────────────────── */
+
+.jh-welcome .jh-muted {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.jh-welcome h3 {
+	margin: var(--size-4-4) 0 var(--size-4-2);
+	font-size: var(--font-ui-medium);
+}
+
+.jh-welcome-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+}
+
+.jh-welcome-card {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-4-3);
+	padding: var(--size-4-3);
+	border-radius: var(--radius-m);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+}
+
+.jh-welcome-info {
+	flex: 1 1 260px;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.jh-welcome-folder {
+	font-weight: var(--font-semibold);
+	word-break: break-word;
+}

@@ -1,0 +1,60 @@
+name: Release
+
+# Al subir una etiqueta igual a la versión de manifest.json (sin «v»: 1.0.0) se arma un release
+# en borrador con main.js, manifest.json y styles.css. Publicarlo es un paso manual.
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+            attestations: write
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Use Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 24
+                  cache: 'npm'
+
+            - name: La etiqueta coincide con manifest.json y versions.json
+              run: |
+                  tag="${GITHUB_REF#refs/tags/}"
+                  version="$(node -p "require('./manifest.json').version")"
+                  if [ "$tag" != "$version" ]; then
+                    echo "::error::La etiqueta ($tag) no coincide con la versión de manifest.json ($version)"
+                    exit 1
+                  fi
+                  node -e "const v=require('./versions.json'); if(!v['$version']) { console.error('versions.json no tiene $version'); process.exit(1) }"
+
+            - name: Build plugin
+              run: |
+                  npm ci
+                  npm test
+                  npm run lint
+                  npm run build
+
+            # Las atestaciones de origen solo existen en repos públicos (plan personal de GitHub).
+            - name: Attest build provenance
+              if: github.event.repository.visibility == 'public'
+              uses: actions/attest@v4
+              with:
+                  subject-path: |
+                      main.js
+                      styles.css
+
+            - name: Create release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  tag="${GITHUB_REF#refs/tags/}"
+                  gh release create "$tag" \
+                    --title="$tag" \
+                    --draft \
+                    main.js manifest.json styles.css

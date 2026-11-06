@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Editores
+.vscode
+.idea
+*.iml
+
+# npm
+node_modules/
+*.log
+
+# Compilado: va en los releases, no en el repo
+main.js
+*.map
+
+# Ajustes del plugin (los guarda Obsidian)
+data.json
+
+# Configuración local
+.env
+
+# Bóvedas de prueba: las genera scripts/make-test-vault.ts
+test-vaults/
