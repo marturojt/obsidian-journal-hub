@@ -1,7 +1,7 @@
 {
 	"name": "journal-hub",
-	"version": "1.0.0",
-	"description": "Creates, files and indexes your journal entries by year and month.",
+	"version": "1.0.1",
+	"description": "Journal and diary: create dated entries from a template, file them into year and month folders automatically, and browse them with a timeline, calendar, activity heatmap and writing streaks.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {

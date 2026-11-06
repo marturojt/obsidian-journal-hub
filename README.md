@@ -4,9 +4,16 @@ Keep a journal in Obsidian without filing it by hand. Journal Hub creates each e
 files it into year and month folders, and gives you one place to browse every entry: a hub view, a
 GitHub-style activity grid and a plain Markdown index you can read anywhere.
 
-![The hub view in timeline mode](docs/images/hub-timeline.png)
+![Creating an entry, then browsing it in the hub: timeline, calendar, list and search, with the activity grid in the sidebar](docs/images/demo.gif)
 
 <sub>Screenshots use a test vault with invented entries.</sub>
+
+## Why Journal Hub
+
+Daily-notes plugins give you one note per day with a fixed name. Journal Hub is for a journal where each
+entry has its **own name** (`2026-08-07 - Long walk`), maybe several per day, kept in **your** folder and
+layout, and where you want to *see* your journal: browse it by year and month, find an entry in seconds
+and notice how often you actually write. It needs no other plugin (no Templater, no Dataview).
 
 ## Features
 
@@ -34,17 +41,17 @@ GitHub-style activity grid and a plain Markdown index you can read anywhere.
 
 ## Screenshots
 
-| Calendar | List |
+| Timeline | Calendar |
 |---|---|
-| ![Hub view in calendar mode](docs/images/hub-calendar.png) | ![Hub view in list mode, with a bar per month](docs/images/hub-list.png) |
+| ![Hub view in timeline mode](docs/images/hub-timeline.png) | ![Hub view in calendar mode](docs/images/hub-calendar.png) |
 
-| Activity in the sidebar | New entry |
+| List | Activity in the sidebar |
 |---|---|
-| ![Activity grid in the right sidebar](docs/images/activity-sidebar.png) | ![New entry dialog](docs/images/new-entry.png) |
+| ![Hub view in list mode, with a bar per month](docs/images/hub-list.png) | ![Activity grid in the right sidebar](docs/images/activity-sidebar.png) |
 
-| First run |
-|---|
-| ![Welcome screen suggesting a journal folder](docs/images/welcome.png) |
+| New entry | First run |
+|---|---|
+| ![New entry dialog](docs/images/new-entry.png) | ![Welcome screen suggesting a journal folder](docs/images/welcome.png) |
 
 ## Getting started
 
@@ -154,7 +161,8 @@ Obsidian's language).
 
 ## Installation
 
-- **Community plugins:** search for *Journal Hub* (once it is listed).
+- **Community plugins:** in *Settings → Community plugins → Browse*, search for *Journal Hub*, or open
+  its [listing](https://community.obsidian.md/plugins/journal-hub) and choose *Add to Obsidian*.
 - **Manual:** download `main.js`, `manifest.json` and `styles.css` from the latest
   [release](../../releases) into `<vault>/.obsidian/plugins/journal-hub/`, then enable it in
   *Settings → Community plugins*.
