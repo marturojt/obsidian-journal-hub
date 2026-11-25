@@ -20,6 +20,8 @@ export interface JournalHubSettings extends JournalConfig {
 	hubNote: boolean;
 	/** Ruta de la nota generada ('' = «Journal Hub.md» dentro de la carpeta del journal). */
 	hubNotePath: string;
+	/** Una sola nota con todas las ligas, o en ramas (notas de año y mes) para la vista de gráfica. */
+	hubNoteStyle: HubNoteStyle;
 	/** Ya se mostró la bienvenida (se muestra una sola vez; después, con el comando). */
 	welcomeShown: boolean;
 }
@@ -44,8 +46,11 @@ export const DEFAULT_SETTINGS: JournalHubSettings = {
 	askOnNewNote: true,
 	hubNote: true,
 	hubNotePath: '',
+	hubNoteStyle: 'single',
 	welcomeShown: false,
 };
+
+export type HubNoteStyle = 'single' | 'branches';
 
 export const DEFAULT_HUB_NOTE_NAME = 'Journal Hub.md';
 
@@ -59,3 +64,8 @@ export function resolveHubNotePath(s: JournalHubSettings): string | null {
 
 /** Organizaciones comunes para las subcarpetas. */
 export const FOLDER_PRESETS = ['YYYY/MM', 'YYYY/MM - MMMM', 'YYYY/YYYY-MM', 'YYYY', ''];
+
+/** Carpeta de las notas de año y mes (modo en ramas): la ruta de la nota del hub sin «.md». */
+export function hubIndexFolder(hubPath: string | null): string | null {
+	return hubPath ? hubPath.replace(/\.md$/i, '') : null;
+}

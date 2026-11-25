@@ -1,7 +1,7 @@
 {
 	"id": "journal-hub",
 	"name": "Journal Hub",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"minAppVersion": "1.15.0",
 	"description": "Journal and diary: create dated entries from a template, file them into year and month folders automatically, and browse them with a timeline, calendar, activity heatmap and writing streaks.",
 	"author": "Arturo Jimenez",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isGeneratedHubNote, renderHubNote } from '../src/core/hub-note';
+import { isGeneratedHubNote, renderHubBranches, renderHubNote } from '../src/core/hub-note';
 import { buildIndex } from '../src/core/model';
 import { readFrontmatter } from '../scripts/frontmatter';
 import { CONFIGS } from '../scripts/configs';
@@ -61,5 +61,68 @@ describe('isGeneratedHubNote', () => {
 		expect(isGeneratedHubNote('# Mi índice hecho a mano\n')).toBe(false);
 		expect(isGeneratedHubNote('---\ntitle: x\n---\njournal-hub: generated\n')).toBe(false);
 		expect(isGeneratedHubNote('---\ntags: [a]\njournal-hub: generated\n---\n')).toBe(true);
+	});
+});
+
+describe('nota del hub en ramas (gráfica hub → año → mes → entrada)', () => {
+	const idx = buildIndex(
+		[...profileFiles('arturo')].map(([path, content]) => ({ path, frontmatter: readFrontmatter(content) })),
+		CONFIGS.arturo!,
+	);
+	const hubPath = '03 - JOURNAL/✱ Journal HUB.md';
+	const indexFolder = '03 - JOURNAL/✱ Journal HUB';
+	const linkTargets = (text: string) => [...text.matchAll(/\[\[([^|\]]+)\|/g)].map((m) => m[1]!);
+	const render = () =>
+		renderHubBranches({
+			entries: idx.entries,
+			unmatched: idx.unmatched,
+			lang: 'es',
+			texts: { ...texts, entries: (n) => `${n} entradas` },
+			link: wikilink,
+			hubPath,
+			indexFolder,
+			fileMonths: { monthLanguage: 'en', monthCase: 'lower' },
+		});
+	const out = render();
+
+	it('el hub liga solo a las notas de año', () => {
+		expect(linkTargets(out.hub)).toEqual([`${indexFolder}/2026`, `${indexFolder}/2025`, `${indexFolder}/2024`]);
+		expect(out.hub).toContain('journal-hub: generated');
+	});
+
+	it('una nota por año y una por mes con entradas, con nombres como las carpetas del journal', () => {
+		const names = [...out.notes.keys()].map((p) => p.slice(indexFolder.length + 1));
+		expect(names.filter((n) => /^\d{4}\.md$/.test(n))).toEqual(['2026.md', '2025.md', '2024.md']);
+		expect(names.filter((n) => !/^\d{4}\.md$/.test(n))).toHaveLength(18);
+		expect(names).toContain('2026-08 - august.md');
+		expect(names).not.toContain('2025-03 - march.md'); // mes sin entradas
+	});
+
+	it('cada año liga a su hub y a sus meses; cada mes a su año y a sus entradas', () => {
+		for (const [path, content] of out.notes) {
+			const targets = linkTargets(content);
+			if (/\/\d{4}\.md$/.test(path)) {
+				expect(targets[0]).toBe(hubPath.replace(/\.md$/, ''));
+				expect(targets.slice(1).every((t) => t.startsWith(`${path.replace(/\.md$/, '')}-`))).toBe(true);
+			} else {
+				const year = /\/(\d{4})-\d{2} - /.exec(path)![1];
+				expect(targets[0]).toBe(`${indexFolder}/${year}`);
+				expect(targets.slice(1).every((t) => t.startsWith('03 - JOURNAL/'))).toBe(true);
+				expect(targets.slice(1).some((t) => t.startsWith(indexFolder))).toBe(false);
+			}
+			expect(isGeneratedHubNote(content)).toBe(true);
+		}
+	});
+
+	it('las 95 entradas quedan ligadas exactamente una vez, desde su mes', () => {
+		const entryLinks = [...out.notes.values()].flatMap((c) => linkTargets(c)).filter((t) => !t.startsWith(indexFolder) && t !== hubPath.replace(/\.md$/, ''));
+		expect(entryLinks).toHaveLength(95);
+		expect(new Set(entryLinks).size).toBe(95);
+	});
+
+	it('es estable', () => {
+		const again = render();
+		expect(again.hub).toBe(out.hub);
+		expect([...again.notes]).toEqual([...out.notes]);
 	});
 });

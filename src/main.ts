@@ -6,7 +6,7 @@ import { Entries } from './entries';
 import { Filer } from './filer';
 import { HubNoteWriter } from './hub-note';
 import { t } from './i18n';
-import { DEFAULT_SETTINGS, JournalHubSettings, resolveHubNotePath, VAULT_ROOT } from './settings';
+import { DEFAULT_SETTINGS, hubIndexFolder, JournalHubSettings, resolveHubNotePath, VAULT_ROOT } from './settings';
 import { EntryModal } from './ui/entry-modal';
 import { FileEntriesModal } from './ui/file-modal';
 import { ACTIVITY_VIEW, ActivityView } from './ui/activity-view';
@@ -321,6 +321,9 @@ export default class JournalHubPlugin extends Plugin {
 		if (movedHubNote !== null) {
 			s.hubNotePath = movedHubNote;
 			changed = true;
+			// Si solo se renombró la nota, sus ramas viejas sobran (si se movió la carpeta que la
+			// contiene, las ramas se movieron con ella y esto no encuentra nada).
+			if (s.hubNoteStyle === 'branches') void this.hubNote.retireIndex(hubIndexFolder(hubNote));
 		}
 		if (s.journalFolder && s.journalFolder !== VAULT_ROOT) {
 			const updated = rebase(normalizeFolder(s.journalFolder), oldPath, newPath);

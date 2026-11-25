@@ -39,6 +39,15 @@ export class JournalHubSettingTab extends PluginSettingTab {
 				control: { type: 'toggle', key: 'hubNote' },
 			},
 			{
+				name: t('settings.hubNoteStyle.name'),
+				desc: t('settings.hubNoteStyle.desc'),
+				control: {
+					type: 'dropdown',
+					key: 'hubNoteStyle',
+					options: { single: t('settings.hubNoteStyle.single'), branches: t('settings.hubNoteStyle.branches') },
+				},
+			},
+			{
 				name: t('settings.hubNotePath.name'),
 				desc: t('settings.hubNotePath.desc'),
 				control: {

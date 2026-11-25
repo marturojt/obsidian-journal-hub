@@ -130,6 +130,13 @@ property `journal-hub: generated` and a notice that the plugin writes it. Journa
 a note at that path without that property. It has no "last updated" line, so it only changes when
 your entries do, which keeps Git-synced vaults quiet.
 
+**Layout for the graph view.** With *Hub note layout → Branches*, the hub note links to one note per
+year, each year note to one note per month, and each month note to its entries, so Obsidian's graph view
+shows a tree (hub → year → month → entry) instead of every entry hanging from the hub. Year and month
+notes (`2026.md`, `2026-08 - August.md`) are generated in a folder named like the hub note, carry the same
+`journal-hub: generated` property, and are removed when no longer needed (for example, switching back to
+*One note*).
+
 ## Commands
 
 | Command | |

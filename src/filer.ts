@@ -8,7 +8,7 @@ import { HUB_NOTE_MARKER, HUB_NOTE_MARKER_VALUE } from './core/hub-note';
 import { buildIndex, JournalConfig, JournalIndex } from './core/model';
 import { baseName, normalizeFolder, parentFolder } from './core/paths';
 import { t } from './i18n';
-import { JournalHubSettings, resolveHubNotePath, VAULT_ROOT } from './settings';
+import { hubIndexFolder, JournalHubSettings, resolveHubNotePath, VAULT_ROOT } from './settings';
 
 export class Filer {
 	private warnedMissing = false;
@@ -37,7 +37,8 @@ export class Filer {
 		const settings = this.getSettings();
 		const templates = normalizeFolder(settings.templatesFolder);
 		const hubNote = resolveHubNotePath(settings);
-		return [templates, hubNote ?? ''].filter(Boolean);
+		const indexFolder = settings.hubNoteStyle === 'branches' ? hubIndexFolder(hubNote) : null;
+		return [templates, hubNote ?? '', indexFolder ?? ''].filter(Boolean);
 	}
 
 	/** Crea las carpetas que falten para poder escribir en `path`. */
